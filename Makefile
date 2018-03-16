@@ -1,6 +1,6 @@
 include_dir=build
 source=chapters/*.md
-title='电子书模板'
+title='understandinges6'
 filename='ebook'
 
 
@@ -10,7 +10,7 @@ markdown:
 	awk 'FNR==1{print ""}{print}' $(source) > $(filename).md
 
 html: markdown
-	pandoc -s $(filename).md -t html5 -o index.html -c style.css \
+	pandoc -s $(filename).md -t html5 -o index.html -c epub.css \
 		--include-in-header $(include_dir)/head.html \
 		--include-before-body $(include_dir)/author.html \
 		--include-before-body $(include_dir)/share.html \
@@ -18,17 +18,19 @@ html: markdown
 		--title-prefix $(title) \
 		--normalize \
 		--smart \
-		--toc
+		--toc \
+		--toc-depth=2 \
 
 epub: markdown
 	pandoc -s $(filename).md --normalize --smart -t epub -o $(filename).epub \
 		--epub-metadata $(include_dir)/metadata.xml \
-		--epub-stylesheet epub.css \
-		--epub-cover-image img/cover.jpg \
+		--epub-stylesheet pandoc.css \
+		--epub-cover-image img/cover.png \
 		--title-prefix $(title) \
 		--normalize \
 		--smart \
-		--toc
+		--toc \
+		--toc-depth=2 \
 
 rtf: markdown
 	pandoc -s $(filename).md -o $(filename).rtf \
